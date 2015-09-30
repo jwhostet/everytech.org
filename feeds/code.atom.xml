@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Everything Technical</title><link href="http://everytech.org/" rel="alternate"></link><link href="http://everytech.org/feeds/code.atom.xml" rel="self"></link><id>http://everytech.org/</id><updated>2014-03-22T15:07:00-04:00</updated><entry><title>SpinRite Virtual Machine</title><link href="http://everytech.org/spinrite-virtual-machine.html" rel="alternate"></link><updated>2014-03-22T15:07:00-04:00</updated><author><name>Joshua H</name></author><id>tag:everytech.org,2014-03-22:spinrite-virtual-machine.html</id><summary type="html">&lt;p&gt;During my employment at my last job as an anything and everything
+Technician with my good friend Mark. We ran into, as you can imagine, a
+lot of hard drive problems. Sometimes our last resort to get data back
+for a customer was to run a program called SpinRite. This worked for
+drives that had just enough life in them. The next problem we ran into
+was a lack of machines to run these drives on. A whole machine used for
+one drive for more than a couple hours meant we were way less
+productive. Our solution, run SpinRite as a virtual machine. The process
+for getting this going wasn't hard but we would tend to forget the steps
+and get angry because one thing or another wouldn't work. So I took the
+liberty of creating a simple little script and when it is ran as
+administrator it takes care of everything, even starts the virtual
+machine with the hard drive attached to it. As with most scripts written
+by someone else, I do not take responsibility for you using it blindly
+or improperly. With that said, I have used it on many different machines
+with no problems. Good luck with your hard drive woes.&lt;/p&gt;
+&lt;div class="section" id="requirements"&gt;
+&lt;h2&gt;Requirements:&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;VirtualBox&lt;/li&gt;
+&lt;li&gt;SpinRite&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Few words on the script. Use Disk Management to get the disk number of
+the hard drive you would like to run SpinRite on. Make sure you set the
+variables (case sensitive) EXEC, DEST, and VMNAME for the correct install location of
+VirtualBox and where you want the raw disk to be created. VMNAME is what
+you have named the SpinRite virtual machine. DKPTTXT is the location you
+want the temprorary text file saved for DISKPART to read. Make sure to
+run this as administrator!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;::::::::::::::::::::::::::::::::::::::::::::::::::::::&lt;/span&gt;
+&lt;span class="c"&gt;:: Created by: Josh Hostetler&lt;/span&gt;
+&lt;span class="c"&gt;:: Created on: 1/4/14&lt;/span&gt;
+&lt;span class="c"&gt;:: Name:       makeRawDisk.cmd&lt;/span&gt;
+&lt;span class="c"&gt;:: Purpose:    Auto create virtual hard disk&lt;/span&gt;
+&lt;span class="c"&gt;::               and dismount with proper attributes&lt;/span&gt;
+&lt;span class="c"&gt;::               the physical hard disk for use with&lt;/span&gt;
+&lt;span class="c"&gt;::               a SpinRite Virtual Hard Disk.&lt;/span&gt;
+&lt;span class="c"&gt;::::::::::::::::::::::::::::::::::::::::::::::::::::::&lt;/span&gt;
+&lt;span class="p"&gt;@&lt;/span&gt;&lt;span class="k"&gt;echo&lt;/span&gt; &lt;span class="k"&gt;off&lt;/span&gt;
+
+&lt;span class="k"&gt;SET&lt;/span&gt; &lt;span class="nv"&gt;HOUR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;%time:~0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;%
+&lt;span class="k"&gt;SET&lt;/span&gt; &lt;span class="nv"&gt;dtStamp9&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;%date:~&lt;/span&gt;&lt;span class="m"&gt;-4&lt;/span&gt;&lt;span class="nv"&gt;%%date:~4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="nv"&gt;%%date:~7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="nv"&gt;%_0%&lt;/span&gt;time:~&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="nv"&gt;%%time:~3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="nv"&gt;%%time:~6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;%
+&lt;span class="k"&gt;SET&lt;/span&gt; &lt;span class="nv"&gt;dtStamp24&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;%date:~&lt;/span&gt;&lt;span class="m"&gt;-4&lt;/span&gt;&lt;span class="nv"&gt;%%date:~4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="nv"&gt;%%date:~7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="nv"&gt;%_%&lt;/span&gt;time:~&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="nv"&gt;%%time:~3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="nv"&gt;%%time:~6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;%
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s2"&gt;"%HOUR:~0,1%"&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;" "&lt;/span&gt; (&lt;span class="k"&gt;SET&lt;/span&gt; &lt;span class="nv"&gt;dtStamp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;%dtStamp9%&lt;/span&gt;) &lt;span class="k"&gt;else&lt;/span&gt; (&lt;span class="k"&gt;SET&lt;/span&gt; &lt;span class="nv"&gt;dtStamp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;%dtStamp24%&lt;/span&gt;)
+
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="n"&gt;/p&lt;/span&gt; diskNum&lt;span class="o"&gt;=&lt;/span&gt;What is the Disk number?:
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;EXEC&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;DEST&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"C:\Users\Joshua\Desktop\disk%diskNum%%dtStamp%.vmdk"&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;VMNAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;spinrite
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;COMMAKE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;internalcommands createrawvmdk -filename &lt;span class="nv"&gt;%DEST%&lt;/span&gt; -rawdisk &lt;span class="s2"&gt;"\\.\PhysicalDrive%diskNum%"&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;COMADD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;storageattach &lt;span class="nv"&gt;%VMNAME%&lt;/span&gt; --storagectl &lt;span class="s2"&gt;"IDE"&lt;/span&gt; --device &lt;span class="m"&gt;0&lt;/span&gt; --port &lt;span class="m"&gt;0&lt;/span&gt; --type hdd --medium &lt;span class="nv"&gt;%DEST%&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nv"&gt;DKPTTXT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"C:\Users\Joshua\Desktop\dkpt.txt"&lt;/span&gt;
+
+&lt;span class="k"&gt;call&lt;/span&gt; &lt;span class="nv"&gt;%EXEC%&lt;/span&gt; &lt;span class="nv"&gt;%COMMAKE%&lt;/span&gt;
+
+&lt;span class="k"&gt;echo&lt;/span&gt; sel dis &lt;span class="nv"&gt;%diskNum%&lt;/span&gt; &amp;amp;gt; &lt;span class="nv"&gt;%DKPTTXT%&lt;/span&gt;
+&lt;span class="k"&gt;echo&lt;/span&gt; offline disk &amp;amp;gt;&amp;amp;gt; &lt;span class="nv"&gt;%DKPTTXT%&lt;/span&gt;
+&lt;span class="k"&gt;echo&lt;/span&gt; attributes disk clear readonly &amp;amp;gt;&amp;amp;gt; &lt;span class="nv"&gt;%DKPTTXT%&lt;/span&gt;
+
+DISKPART &lt;span class="n"&gt;/s&lt;/span&gt; &lt;span class="nv"&gt;%DKPTTXT%&lt;/span&gt;
+&lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="nv"&gt;%DKPTTXT%&lt;/span&gt;
+
+&lt;span class="k"&gt;call&lt;/span&gt; &lt;span class="nv"&gt;%EXEC%&lt;/span&gt; &lt;span class="nv"&gt;%COMADD%&lt;/span&gt;
+&lt;span class="k"&gt;call&lt;/span&gt; &lt;span class="nv"&gt;%EXEC%&lt;/span&gt; startvm &lt;span class="nv"&gt;%VMNAME%&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+</summary><category term="Hard Drive"></category><category term="Script"></category><category term="SpinRite"></category><category term="Virtual Machine"></category><category term="VirtualBox"></category></entry></feed>

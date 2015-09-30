@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Everything Technical</title><link href="http://everytech.org/" rel="alternate"></link><link href="http://everytech.org/feeds/android-apps.atom.xml" rel="self"></link><id>http://everytech.org/</id><updated>2014-03-14T19:56:00-04:00</updated><entry><title>JuiceSSH</title><link href="http://everytech.org/juicessh.html" rel="alternate"></link><updated>2014-03-14T19:56:00-04:00</updated><author><name>Mark P</name></author><id>tag:everytech.org,2014-03-14:juicessh.html</id><summary type="html">&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;JuiceSSH is probably the best ssh client for android. So you should
+probably get it while the pro version is free. Good until the 18th.&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;a class="reference external" href="https://sonelli.com/500k"&gt;https://sonelli.com/500k&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</summary><category term="Android"></category><category term="App"></category><category term="Application"></category><category term="Free"></category><category term="SSH"></category></entry></feed>

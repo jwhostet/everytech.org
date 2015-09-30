@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Everything Technical</title><link href="http://everytech.org/" rel="alternate"></link><link href="http://everytech.org/feeds/programming.atom.xml" rel="self"></link><id>http://everytech.org/</id><updated>2014-04-21T20:16:00-04:00</updated><entry><title>Programming eBooks!!!</title><link href="http://everytech.org/programming-ebooks.html" rel="alternate"></link><updated>2014-04-21T20:16:00-04:00</updated><author><name>Joshua H</name></author><id>tag:everytech.org,2014-04-21:programming-ebooks.html</id><summary type="html">&lt;p&gt;I came across this awesome list of free eBooks for programming. They
+cover a little of everything from Android and Awk to language agnostic
+books. It has grown considerably from just eBooks to Meta-lists,
+Mathematics, and other Misc literature. No matter what language you are
+an expert in or never heard of before there is something here for you.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/vhf/free-programming-books/blob/master/free-programming-books.md"&gt;Free Programming
+Books&lt;/a&gt;&lt;/p&gt;
+</summary><category term="eBook"></category><category term="Free"></category><category term="Programming"></category></entry></feed>

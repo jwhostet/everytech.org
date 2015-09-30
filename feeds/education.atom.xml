@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Everything Technical</title><link href="http://everytech.org/" rel="alternate"></link><link href="http://everytech.org/feeds/education.atom.xml" rel="self"></link><id>http://everytech.org/</id><updated>2014-04-05T18:13:00-04:00</updated><entry><title>Massive Open Online Courses</title><link href="http://everytech.org/massive-open-online-courses.html" rel="alternate"></link><updated>2014-04-05T18:13:00-04:00</updated><author><name>Joshua H</name></author><id>tag:everytech.org,2014-04-05:massive-open-online-courses.html</id><summary type="html">&lt;p&gt;I just found out about two really cool and interesting MOOC classes. For
+those of you interested in digital currencies and/or cryptography these
+are two introductory courses you should sign up for! I am currently in
+both and waiting for one of them to start. The Cryptography class at
+Stanford has already started but you can possibly still get in as long
+as you don't wait too long. The Digital Currency class doesn't start
+till May 15th.&lt;/p&gt;
+&lt;p&gt;&lt;cite&gt;MOOC Stanford Cryptography I &amp;lt;http://online.stanford.edu/course/cryptography&amp;gt;&lt;/cite&gt;&lt;/p&gt;
+&lt;p&gt;&lt;cite&gt;MOOC University of Nicosia Digital Currency DFIN-511 &amp;lt;http://digitalcurrency.unic.ac.cy/free-introductory-mooc&amp;gt;&lt;/cite&gt;&lt;/p&gt;
+</summary><category term="Bitcoin"></category><category term="Cryptography"></category><category term="Cyrpto"></category><category term="Digital Currency"></category><category term="MOOC"></category><category term="Stanford"></category><category term="University of Nicosia"></category></entry></feed>

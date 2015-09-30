@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Everything Technical</title><link href="http://everytech.org/" rel="alternate"></link><link href="http://everytech.org/feeds/adobe.atom.xml" rel="self"></link><id>http://everytech.org/</id><updated>2014-03-11T18:59:00-04:00</updated><entry><title>Adobe AEM/CQ Content Authoring Trainging</title><link href="http://everytech.org/adobe-aemcq-content-authoring-trainging.html" rel="alternate"></link><updated>2014-03-11T18:59:00-04:00</updated><author><name>Joshua H</name></author><id>tag:everytech.org,2014-03-11:adobe-aemcq-content-authoring-trainging.html</id><summary type="html">&lt;p&gt;Just went through the one day training for the authoring of content on
+Adobe's AEM/CQ software. The class was alright, I learned a few things.
+Every class I take I understand a bit more about how it will integrate
+into our setting. The unfortunate thing is I still don't see the big
+picture. On the subject of the class if you don't know anything about
+AEM/CQ it will definitely inform you and teach you all about the
+authoring side of it. I would suggest it for those who have not touched
+AEM/CQ before for sure.&lt;/p&gt;
+&lt;p&gt;Either way, I now have a monitoring system set up for my web server and
+also analytic software set up to help track visitors. I don't plan on a
+lot of visitors but the project itself still is pretty nifty. I am still
+working on what I'm going to do for a logo and maybe more customizing of
+the site. For now I will hopefully be able to start posting more!&lt;/p&gt;
+</summary><category term="Adobe"></category><category term="AEM"></category><category term="CMS"></category><category term="Content Author"></category><category term="CQ"></category><category term="Server"></category><category term="Software"></category><category term="Training"></category></entry><entry><title>Adobe AEM/CQ System Administration Training</title><link href="http://everytech.org/adobe-aemcq-system-administration-training.html" rel="alternate"></link><updated>2014-03-03T20:24:00-05:00</updated><author><name>Joshua H</name></author><id>tag:everytech.org,2014-03-03:adobe-aemcq-system-administration-training.html</id><summary type="html">&lt;p&gt;I just got back from my adobe training in McLean Virgina. The class was
+very interesting and while I did have to leave early, it was still very
+worth the trip. The documentation which came in the form of a hard to
+read PDF (low DPI) is the most important part. The instructor was great
+but you can’t take him with you. Not going to get too in depth about the
+class now as I hope to complete more of my blog. I hope to be making it
+a little more secure and adding in a few more pieces and parts.&lt;/p&gt;
+</summary><category term="Admin"></category><category term="Adobe"></category><category term="AEM"></category><category term="CQ"></category><category term="PDF"></category><category term="System Administrator"></category><category term="Training"></category></entry></feed>

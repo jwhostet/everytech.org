@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Everything Technical</title><link href="http://everytech.org/" rel="alternate"></link><link href="http://everytech.org/feeds/security.atom.xml" rel="self"></link><id>http://everytech.org/</id><updated>2014-03-04T21:34:00-05:00</updated><entry><title>Next steps.</title><link href="http://everytech.org/next-steps.html" rel="alternate"></link><updated>2014-03-04T21:34:00-05:00</updated><author><name>Joshua H</name></author><id>tag:everytech.org,2014-03-04:next-steps.html</id><summary type="html">&lt;p&gt;Good news everyone, HSTS, PFS, and strong ciphers are now configured!The
+encryption is mainly for logging in to the blog a few other things. I
+kind of want to install EtherPad... that will be a different day, maybe
+when I bump the Virtual Machine specs or move to bare metal.&lt;/p&gt;
+&lt;p&gt;On a sadder note just yesterday morning the world lost another great
+man. He started the business I work for and has made it a great place to
+work. His passing away reminds me of a very good friend of mine who
+recently passed away along with my grandfather. We will never forget
+what the have done in the time they have been with us. From the smiles
+to the heartfelt caring we will always remember.&lt;/p&gt;
+</summary><category term="Encryption"></category><category term="SSL"></category><category term="TLS"></category><category term="Virtual Machine"></category><category term="VirtualBox"></category></entry></feed>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Everything Technical</title><link href="http://everytech.org/" rel="alternate"></link><link href="http://everytech.org/feeds/os-x.atom.xml" rel="self"></link><id>http://everytech.org/</id><updated>2014-04-19T19:11:00-04:00</updated><entry><title>Apple's SMC and New HDDs</title><link href="http://everytech.org/apples-smc-and-new-hdds.html" rel="alternate"></link><updated>2014-04-19T19:11:00-04:00</updated><author><name>Joshua H</name></author><id>tag:everytech.org,2014-04-19:apples-smc-and-new-hdds.html</id><summary type="html">&lt;p&gt;I was just asked by a long time friend what software I recommended him
+to install on his fairly new iMac to control the fan speed. As many iMac
+owners know after swapping out your hard drive for a fancy solid state
+drive or just replacing your bad hard drive with one off the shelf, some
+new problems occur. Apple has installed hard drives with proprietary
+temperature sensors in them and when you replace that drive with one not
+compatible your fan picks up to take off speeds. Super loud and annoy,
+just for replacing your hard drive or upgrading to a SSD. Apple's SMC,
+system management controller, monitors sensors in your iMac and adjusts
+certain devices based on the input it gets. Thus a hard drive not
+reporting, which reads as a very hot hard drive to the SMC, means crank
+the fans up! The simplest solution without opening the machine back up
+is to install a small application that allows you to control the fan
+speed. Best yet the software I recommend is free and can read SMART data
+to help monitor hard drive temperatures without the need of a
+proprietary sensor. There are a couple other suitable options out there
+but from my research and testing this was my favorite and the one I
+suggest to my friends. Give it a try, if you like it consider donating
+to the developer.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://exirion.net/ssdfanctrl/"&gt; SSD Fan Control - SMC Fan Control
+Replacement&lt;/a&gt;&lt;/p&gt;
+</summary><category term="Apple"></category><category term="Hard Drive"></category><category term="Proprietary"></category></entry></feed>

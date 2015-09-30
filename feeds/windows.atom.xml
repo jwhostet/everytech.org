@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Everything Technical</title><link href="http://everytech.org/" rel="alternate"></link><link href="http://everytech.org/feeds/windows.atom.xml" rel="self"></link><id>http://everytech.org/</id><updated>2014-04-11T21:09:00-04:00</updated><entry><title>Windows Password Removal</title><link href="http://everytech.org/windows-password-removal-1.html" rel="alternate"></link><updated>2014-04-11T21:09:00-04:00</updated><author><name>Joshua H</name></author><id>tag:everytech.org,2014-04-11:windows-password-removal-1.html</id><summary type="html">&lt;p&gt;Sticking with the topic of Microsoft Windows, I have an update on
+password removals. One of Mark and I's problems we had just before we
+left our last place of employment was trying to reset the password on a
+windows 8 machine. At the time windows 8 came out the options for
+removing a password were log into the Microsoft account that the
+computer was set up with or be super sad. Turns out a lot people were
+super sad. Well good news for everyone, the main tool we used to remove
+a password has been updated to work with windows 8! Our favorite way to
+use this software is PXE network booting or installed on a USB drive.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;Check it out.&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;a class="reference external" href="http://pogostick.net/~pnh/ntpasswd/"&gt;Offline NT Password &amp;amp; Registry
+Editor&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</summary><category term="Bootdisk"></category><category term="Offline"></category><category term="Password"></category></entry><entry><title>Windows 8.1 and eDrive SSDs</title><link href="http://everytech.org/windows-8-1-and-edrive-ssds.html" rel="alternate"></link><updated>2014-04-05T21:55:00-04:00</updated><author><name>Mark P</name></author><id>tag:everytech.org,2014-04-05:windows-8-1-and-edrive-ssds.html</id><summary type="html">&lt;p&gt;So I built someone a computer this week, a pretty basic system with
+Windows 8.1 and a Samsung 840 EVO SSD. I had some vague recollection of
+a conversation Josh and I had about encryption being enabled by default,
+so I decided to look into that a bit.&lt;/p&gt;
+&lt;p&gt;Here's Microsoft's &lt;a class="reference external" href="http://technet.microsoft.com/en-us/library/dn306081.aspx"&gt;blurb&lt;/a&gt; on
+the subject. Basically, on a clean Windows 8.1 install on a system with
+a TPM, Secure Boot, UEFI, Connected Standby support, and an eDrive
+compliant ssd, and probably some other requirements - Windows will
+automatically enable hardware-based Bitlocker device encryption and
+upload a recovery key to an associated Microsoft account. You can toggle
+this protection on or off on supported systems on the PC Settings\ PC
+Info metro app. Seems to be a pretty cool feature. Seamless and fast
+security in the event a computer is lost or stolen, although I can see
+it becoming a problem for anyone who has to support end users, do data
+recovery, etc., especially as systems supporting this feature become
+more prevalent.&lt;/p&gt;
+&lt;p&gt;OK, cool. What's not cool is that Windows 8.1 will, during setup,
+automatically provision a compatible drive for eDrive without user
+interaction, thereby locking out the ability to issue ATA security
+commands to the drive (set ATA passwords, perform secure erase), which
+sort of sucks, because on many SSDs this is practically irreversible.
+For most users, this probably won't be too big of a deal, but it might
+matter for people who want to repurpose or sell the drive.&lt;/p&gt;
+&lt;p&gt;There is supposed to be a method of resetting the drive back to its
+factory state by using the PSID number printed on the drive, but most
+manufactures do not provide a utility to do this. It's a pretty awesome
+feature, too. Just enter a code and the drive is instantly and securely
+wiped. As near as I could tell, only Seagate has a tool to do this.
+Samsung and Crucial don't provide a tool. On their forums, Crucial has
+users RMAing drives to get around this. Samsung refers customers to
+Microsoft, who in turn refers them back to Samsung.&lt;/p&gt;
+&lt;p&gt;eDrive seems like a worthwhile feature, but MS and SSD manufacturers
+sort of jumped the gun on implementing it without properly documenting
+and supporting it. I'd like to mess with it once the process is a little
+more mature, but for the time being, I decided to sidestep the feature
+by adding a registry key during install:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\EnhancedStorageDevices]
+"TCGSecurityActivationDisabled"=dword:00000001
+&lt;/pre&gt;&lt;/div&gt;
+</summary><category term="Bitlocker"></category><category term="eDrive"></category><category term="Encryption"></category><category term="Samsung"></category><category term="SSD"></category><category term="UEFI"></category></entry></feed>
