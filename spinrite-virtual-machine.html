@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    SpinRite Virtual Machine
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="/theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/theme/css/main.css">
+
+    <link rel="stylesheet" href="/theme/css/blog.css">
+    <link rel="stylesheet" href="/theme/css/github.css">
+        <script src="/theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href=""><h1>Everything Technical</h1></a>
+        <p id="site-desc"></p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="/pages/contact.html">Contact</a></li>
+                <li><a href="/pages/social.html">Social</a></li>
+        </ul>
+    </nav>
+<footer id="site-info">
+    <p>
+        Proudly powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> and <a href="http://python.org/" target="python">Python</a>.
+    </p>
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2014-03-22T15:07:00-04:00" pubdate>
+                            Sat 22 March 2014
+                        </time>
+                        <a href="/spinrite-virtual-machine.html" rel="bookmark"><h1>SpinRite Virtual Machine</h1></a>
+                        <a href="/author/joshua-h.html" rel="bookmark">Joshua H</a>
+                    </header>
+
+                    <section class="post-content">
+                        <p>During my employment at my last job as an anything and everything
+Technician with my good friend Mark. We ran into, as you can imagine, a
+lot of hard drive problems. Sometimes our last resort to get data back
+for a customer was to run a program called SpinRite. This worked for
+drives that had just enough life in them. The next problem we ran into
+was a lack of machines to run these drives on. A whole machine used for
+one drive for more than a couple hours meant we were way less
+productive. Our solution, run SpinRite as a virtual machine. The process
+for getting this going wasn't hard but we would tend to forget the steps
+and get angry because one thing or another wouldn't work. So I took the
+liberty of creating a simple little script and when it is ran as
+administrator it takes care of everything, even starts the virtual
+machine with the hard drive attached to it. As with most scripts written
+by someone else, I do not take responsibility for you using it blindly
+or improperly. With that said, I have used it on many different machines
+with no problems. Good luck with your hard drive woes.</p>
+<div class="section" id="requirements">
+<h2>Requirements:</h2>
+<ul class="simple">
+<li>VirtualBox</li>
+<li>SpinRite</li>
+</ul>
+<p>Few words on the script. Use Disk Management to get the disk number of
+the hard drive you would like to run SpinRite on. Make sure you set the
+variables (case sensitive) EXEC, DEST, and VMNAME for the correct install location of
+VirtualBox and where you want the raw disk to be created. VMNAME is what
+you have named the SpinRite virtual machine. DKPTTXT is the location you
+want the temprorary text file saved for DISKPART to read. Make sure to
+run this as administrator!</p>
+<div class="highlight"><pre><span class="c">::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+<span class="c">:: Created by: Josh Hostetler</span>
+<span class="c">:: Created on: 1/4/14</span>
+<span class="c">:: Name:       makeRawDisk.cmd</span>
+<span class="c">:: Purpose:    Auto create virtual hard disk</span>
+<span class="c">::               and dismount with proper attributes</span>
+<span class="c">::               the physical hard disk for use with</span>
+<span class="c">::               a SpinRite Virtual Hard Disk.</span>
+<span class="c">::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+<span class="p">@</span><span class="k">echo</span> <span class="k">off</span>
+
+<span class="k">SET</span> <span class="nv">HOUR</span><span class="o">=</span><span class="nv">%time:~0</span><span class="p">,</span><span class="m">2</span>%
+<span class="k">SET</span> <span class="nv">dtStamp9</span><span class="o">=</span><span class="nv">%date:~</span><span class="m">-4</span><span class="nv">%%date:~4</span><span class="p">,</span><span class="m">2</span><span class="nv">%%date:~7</span><span class="p">,</span><span class="m">2</span><span class="nv">%_0%</span>time:~<span class="m">1</span><span class="p">,</span><span class="m">1</span><span class="nv">%%time:~3</span><span class="p">,</span><span class="m">2</span><span class="nv">%%time:~6</span><span class="p">,</span><span class="m">2</span>%
+<span class="k">SET</span> <span class="nv">dtStamp24</span><span class="o">=</span><span class="nv">%date:~</span><span class="m">-4</span><span class="nv">%%date:~4</span><span class="p">,</span><span class="m">2</span><span class="nv">%%date:~7</span><span class="p">,</span><span class="m">2</span><span class="nv">%_%</span>time:~<span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="nv">%%time:~3</span><span class="p">,</span><span class="m">2</span><span class="nv">%%time:~6</span><span class="p">,</span><span class="m">2</span>%
+
+<span class="k">if</span> <span class="s2">"%HOUR:~0,1%"</span> <span class="o">==</span> <span class="s2">" "</span> (<span class="k">SET</span> <span class="nv">dtStamp</span><span class="o">=</span><span class="nv">%dtStamp9%</span>) <span class="k">else</span> (<span class="k">SET</span> <span class="nv">dtStamp</span><span class="o">=</span><span class="nv">%dtStamp24%</span>)
+
+<span class="k">set</span> <span class="n">/p</span> diskNum<span class="o">=</span>What is the Disk number?:
+<span class="k">set</span> <span class="nv">EXEC</span><span class="o">=</span><span class="s2">"C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"</span>
+<span class="k">set</span> <span class="nv">DEST</span><span class="o">=</span><span class="s2">"C:\Users\Joshua\Desktop\disk%diskNum%%dtStamp%.vmdk"</span>
+<span class="k">set</span> <span class="nv">VMNAME</span><span class="o">=</span>spinrite
+<span class="k">set</span> <span class="nv">COMMAKE</span><span class="o">=</span>internalcommands createrawvmdk -filename <span class="nv">%DEST%</span> -rawdisk <span class="s2">"\\.\PhysicalDrive%diskNum%"</span>
+<span class="k">set</span> <span class="nv">COMADD</span><span class="o">=</span>storageattach <span class="nv">%VMNAME%</span> --storagectl <span class="s2">"IDE"</span> --device <span class="m">0</span> --port <span class="m">0</span> --type hdd --medium <span class="nv">%DEST%</span>
+<span class="k">set</span> <span class="nv">DKPTTXT</span><span class="o">=</span><span class="s2">"C:\Users\Joshua\Desktop\dkpt.txt"</span>
+
+<span class="k">call</span> <span class="nv">%EXEC%</span> <span class="nv">%COMMAKE%</span>
+
+<span class="k">echo</span> sel dis <span class="nv">%diskNum%</span> &amp;gt; <span class="nv">%DKPTTXT%</span>
+<span class="k">echo</span> offline disk &amp;gt;&amp;gt; <span class="nv">%DKPTTXT%</span>
+<span class="k">echo</span> attributes disk clear readonly &amp;gt;&amp;gt; <span class="nv">%DKPTTXT%</span>
+
+DISKPART <span class="n">/s</span> <span class="nv">%DKPTTXT%</span>
+<span class="k">del</span> <span class="nv">%DKPTTXT%</span>
+
+<span class="k">call</span> <span class="nv">%EXEC%</span> <span class="nv">%COMADD%</span>
+<span class="k">call</span> <span class="nv">%EXEC%</span> startvm <span class="nv">%VMNAME%</span>
+</pre></div>
+</div>
+
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="/category/code.html">Code</a></p>
+                        <p>Tags: <a href="/tag/hard-drive.html">Hard Drive</a>, <a href="/tag/script.html">Script</a>, <a href="/tag/spinrite.html">SpinRite</a>, <a href="/tag/virtual-machine.html">Virtual Machine</a>, <a href="/tag/virtualbox.html">VirtualBox</a>, </p>
+                    </aside>
+                    <hr/>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+<script>
+    var _gaq=[['_setAccount','UA-68264624-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+        <script src="/theme/js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    Lizard Lights: Arduino Controlled
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="/theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/theme/css/main.css">
+
+    <link rel="stylesheet" href="/theme/css/blog.css">
+    <link rel="stylesheet" href="/theme/css/github.css">
+        <script src="/theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href=""><h1>Everything Technical</h1></a>
+        <p id="site-desc"></p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="/pages/contact.html">Contact</a></li>
+                <li><a href="/pages/social.html">Social</a></li>
+        </ul>
+    </nav>
+<footer id="site-info">
+    <p>
+        Proudly powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> and <a href="http://python.org/" target="python">Python</a>.
+    </p>
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2014-06-15T17:21:00-04:00" pubdate>
+                            Sun 15 June 2014
+                        </time>
+                        <a href="/lizard-lights-arduino-controlled.html" rel="bookmark"><h1>Lizard Lights: Arduino Controlled</h1></a>
+                        <a href="/author/joshua-h.html" rel="bookmark">Joshua H</a>
+                    </header>
+
+                    <section class="post-content">
+                        <div class="figure" style="width: 5312px; height: auto; max-width: 100%;">
+<img alt="" src="/images/LL_finished.jpg" style="width: 5312px; height: auto; max-width: 100%;"/>
+<p class="caption">Project all closed up and ready to be connected.</p>
+</div>
+<p>This projected was created to help my brother monitor and time his
+Bearded Dragon's lights, temperature, and humidity. Unfortunately this
+project got put off for awhile, but thankfully it is all finished and
+just needs to be installed. I didn't have this place to document so I
+mainly have pictures of the finished project.</p>
+<div class="figure" style="width: 5312px; height: auto; max-width: 100%;">
+<img alt="" src="/images/LL_relays.jpg" style="width: 5312px; height: auto; max-width: 100%;"/>
+<p class="caption">Arduino with ethernet shield and relay board next to it.</p>
+</div>
+<p>I used an Arduino Uno R3 with an ethernet shield. Coupled with 4 relays
+I am able to control 4 outlets. Currently the project allows for
+toggling on and off each outlet through the web as well as a timer based
+system. We monitor the temperature and humidity and allow an additional
+light to be turned on if it gets too cold.</p>
+<div class="figure" style="width: 5312px; height: auto; max-width: 100%;">
+<img alt="" src="/images/LL_sensors.jpg" style="width: 5312px; height: auto; max-width: 100%;"/>
+<p class="caption">DHT11 sensors soldered to spare RJ11 telephone wire.</p>
+</div>
+<p>Using DHT11 sensors for accurate enough humidity and temperature
+readings. they were fairly cheap and bought in a pack of 5 from eBay.
+The code is pretty simple. Including a couple different libraries and
+reusing code for NTP I was able to get most of the functionality without
+writing something from scratch.</p>
+<div class="figure" style="width: 5312px; height: auto; max-width: 100%;">
+<img alt="" src="/images/LL_power.jpg" style="width: 5312px; height: auto; max-width: 100%;"/>
+<p class="caption">Power in and the power rail connections.</p>
+</div>
+<p>I used this handy power rail that allowed for a more modular way to add
+or remove my main power lines. Each tab can be twisted off to add more
+or remove extras. For added safety I included a little push button
+breaker in case of a short or something bad happening. I have a cheap
+wall charger that has a 2 amp and a 1 amp USB port. I power the arduino
+with one and the relay board with the other. This was key in helping
+keep a stable relay board.</p>
+<div class="figure" style="width: 5312px; height: auto; max-width: 100%;">
+<img alt="" src="/images/LL_overview.jpg" style="width: 5312px; height: auto; max-width: 100%;"/>
+<p class="caption">Overview of arduino and power rail.</p>
+</div>
+<div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * LLFinal</span>
+<span class="cm"> * Lizard Lights Final</span>
+<span class="cm"> *</span>
+<span class="cm"> * Digital Pin Wiring:</span>
+<span class="cm"> *         pin 2 - Sensor 1 (Input)     pin 6 - Relay 1 (Output)</span>
+<span class="cm"> *         pin 3 - Sensor 2 (Input)     pin 7 - Relay 2 (Output)</span>
+<span class="cm"> *         pin 4 - Sensor 3 (Input)     pin 8 - Relay 3 (Output)</span>
+<span class="cm"> *         pin 5 - Sensor 4 (Input)     pin 9 - Relay 4 (Output)</span>
+<span class="cm"> *</span>
+<span class="cm"> * Written By:  Joshua Hostetler</span>
+<span class="cm"> * Date:        9/29/2013</span>
+<span class="cm"> * Description: Turn on and off four total lights for bearded dragon.</span>
+<span class="cm"> *              Read from temperature and humidity sensors to determine</span>
+<span class="cm"> *              amount of light and base off of time of day.</span>
+<span class="cm"> */</span>
+
+<span class="cp">#include &lt;Arduino.h&gt;</span>
+<span class="cp">#include &lt;Time.h&gt;</span>
+<span class="cp">#include &lt;TimeAlarms.h&gt;</span>
+<span class="cp">#include &lt;Ethernet.h&gt;</span>
+<span class="cp">#include &lt;EthernetUdp.h&gt;</span>
+<span class="cp">#include &lt;SPI.h&gt;</span>
+<span class="cp">#include "DHT.h"</span>
+<span class="cp">#define DHTTYPE DHT11</span>
+<span class="cp">#define DEBUG false</span>
+<span class="cp">#define Serial if(DEBUG)Serial</span>
+
+<span class="c1">//--- ethernet and ntp init info</span>
+<span class="n">byte</span> <span class="n">mac</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span> <span class="mh">0x90</span><span class="p">,</span> <span class="mh">0xA2</span><span class="p">,</span> <span class="mh">0xDA</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xDA</span><span class="p">,</span> <span class="mh">0xA6</span> <span class="p">};</span>
+<span class="n">IPAddress</span> <span class="nf">ip</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+<span class="n">IPAddress</span> <span class="nf">gateway</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">IPAddress</span> <span class="nf">subnet</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="c1">// NTP Server:</span>
+<span class="n">IPAddress</span> <span class="nf">timeServer</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">localPort</span> <span class="o">=</span> <span class="mi">8888</span><span class="p">;</span>
+
+<span class="c1">//--- Timezone info for ntp time</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">timeZone</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">;</span>
+
+<span class="c1">//--- Digital Pins</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">leftSide</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">middleLog</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">rightSide</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">Platform</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">ccflBulb</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">dayBulb</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">bLight1</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">bLight2</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+
+<span class="c1">//--- Control Url</span>
+<span class="n">String</span> <span class="n">readUrl</span><span class="p">;</span>
+
+<span class="c1">//--- Relay state - relays are active low</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">ON</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">OFF</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c1">//--- on off time for day lights</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">onTime</span> <span class="o">=</span> <span class="mi">480</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">offTime</span> <span class="o">=</span> <span class="mi">1350</span><span class="p">;</span>
+
+<span class="c1">//--- Set up sensors</span>
+<span class="n">DHT</span> <span class="nf">dhtLeft</span><span class="p">(</span><span class="n">leftSide</span><span class="p">,</span> <span class="n">DHTTYPE</span><span class="p">);</span>
+<span class="n">DHT</span> <span class="nf">dhtLog</span><span class="p">(</span><span class="n">middleLog</span><span class="p">,</span> <span class="n">DHTTYPE</span><span class="p">);</span>
+<span class="n">DHT</span> <span class="nf">dhtRight</span><span class="p">(</span><span class="n">rightSide</span><span class="p">,</span> <span class="n">DHTTYPE</span><span class="p">);</span>
+<span class="n">DHT</span> <span class="nf">dhtPlatform</span><span class="p">(</span><span class="n">Platform</span><span class="p">,</span> <span class="n">DHTTYPE</span><span class="p">);</span>
+
+<span class="c1">//--- Set up ethernet</span>
+<span class="n">EthernetUDP</span> <span class="n">Udp</span><span class="p">;</span>
+<span class="n">EthernetServer</span> <span class="nf">server</span><span class="p">(</span><span class="mi">80</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">//--- initialize pins so relays are inactive on startup</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+
+    <span class="c1">//--- Set up the Relays as outputs</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+    <span class="n">pinMode</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+
+    <span class="c1">//--- Initialize sensors</span>
+    <span class="n">dhtLeft</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="n">dhtLog</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="n">dhtRight</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="n">dhtPlatform</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+    <span class="c1">//--- open the serial port</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>
+
+        <span class="n">Ethernet</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">mac</span><span class="p">,</span> <span class="n">ip</span><span class="p">,</span> <span class="n">gateway</span><span class="p">,</span> <span class="n">subnet</span><span class="p">);</span>
+        <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"IP address is "</span><span class="p">);</span>
+        <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">Ethernet</span><span class="p">.</span><span class="n">localIP</span><span class="p">());</span>
+        <span class="n">Udp</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">localPort</span><span class="p">);</span>
+        <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"waiting for sync"</span><span class="p">);</span>
+        <span class="n">setSyncProvider</span><span class="p">(</span><span class="n">getNtpTime</span><span class="p">);</span>
+        <span class="n">setSyncInterval</span><span class="p">(</span><span class="mi">600</span><span class="p">);</span>          <span class="c1">//in seconds - 10min</span>
+
+        <span class="n">server</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+        <span class="c1">//--- Create Alarms and Timers</span>
+        <span class="n">Alarm</span><span class="p">.</span><span class="n">alarmRepeat</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mo">00</span><span class="p">,</span> <span class="mo">00</span><span class="p">,</span> <span class="n">MorningAlarm</span><span class="p">);</span>
+        <span class="n">Alarm</span><span class="p">.</span><span class="n">alarmRepeat</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mo">00</span><span class="p">,</span> <span class="n">EveningAlarm</span><span class="p">);</span>
+        <span class="n">Alarm</span><span class="p">.</span><span class="n">timerRepeat</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">DayStatus</span><span class="p">);</span>
+        <span class="n">Alarm</span><span class="p">.</span><span class="n">timerOnce</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">initStart</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+        <span class="n">listenForEthernetClients</span><span class="p">();</span>
+        <span class="n">Alarm</span><span class="p">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//--- Alarm functions - turn lights on and off here</span>
+<span class="kt">void</span> <span class="nf">MorningAlarm</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">EveningAlarm</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">DayStatus</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">curTime</span> <span class="o">=</span> <span class="p">(</span><span class="n">hour</span><span class="p">()</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span><span class="o">+</span><span class="n">minute</span><span class="p">();</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">curTime</span> <span class="o">&gt;=</span> <span class="n">onTime</span> <span class="o">&amp;&amp;</span> <span class="n">curTime</span> <span class="o">&lt;=</span> <span class="n">offTime</span><span class="p">){</span>
+    <span class="n">CheckSensorsAM</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">CheckSensorsPM</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">initStart</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">int</span> <span class="n">curTime</span> <span class="o">=</span> <span class="p">(</span><span class="n">hour</span><span class="p">()</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span><span class="o">+</span><span class="n">minute</span><span class="p">();</span>
+
+  <span class="k">if</span><span class="p">(</span><span class="n">curTime</span> <span class="o">&gt;=</span> <span class="n">onTime</span> <span class="o">&amp;&amp;</span> <span class="n">curTime</span> <span class="o">&lt;=</span> <span class="n">offTime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">MorningAlarm</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="n">EveningAlarm</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">CheckSensorsAM</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">float</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">coolSide</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">warmSide</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtLeft</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">coolSide</span> <span class="o">+=</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtLog</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">coolSide</span> <span class="o">+=</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtRight</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">warmSide</span> <span class="o">+=</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtPlatform</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">warmSide</span> <span class="o">+=</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">coolSide</span> <span class="o">=</span> <span class="n">coolSide</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+  <span class="n">warmSide</span> <span class="o">=</span> <span class="n">warmSide</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">coolSide</span> <span class="o">&lt;=</span> <span class="mi">25</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">coolSide</span> <span class="o">&gt;=</span> <span class="mi">37</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">warmSide</span> <span class="o">&lt;=</span> <span class="mi">26</span><span class="p">){</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">warmSide</span> <span class="o">&gt;=</span> <span class="mi">43</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">CheckSensorsPM</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="kt">float</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">coolSide</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">float</span> <span class="n">warmSide</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtLeft</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">coolSide</span> <span class="o">+=</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtLog</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">coolSide</span> <span class="o">+=</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtRight</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">warmSide</span> <span class="o">+=</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtPlatform</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">warmSide</span> <span class="o">+=</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">coolSide</span> <span class="o">=</span> <span class="n">coolSide</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+  <span class="n">warmSide</span> <span class="o">=</span> <span class="n">warmSide</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">coolSide</span> <span class="o">&lt;=</span> <span class="mi">21</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">coolSide</span> <span class="o">&gt;=</span> <span class="mi">32</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">warmSide</span> <span class="o">&lt;=</span> <span class="mi">21</span><span class="p">){</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">warmSide</span> <span class="o">&gt;=</span> <span class="mi">32</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//--- listen for incoming clients</span>
+<span class="kt">void</span> <span class="nf">listenForEthernetClients</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kt">float</span> <span class="n">Hum</span><span class="p">,</span> <span class="n">Tem</span><span class="p">;</span>
+  <span class="n">EthernetClient</span> <span class="n">client</span> <span class="o">=</span> <span class="n">server</span><span class="p">.</span><span class="n">available</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">client</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"new client"</span><span class="p">);</span>
+    <span class="c1">// an http request ends with a blank line</span>
+    <span class="n">boolean</span> <span class="n">currentLineIsBlank</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">connected</span><span class="p">())</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">available</span><span class="p">())</span> <span class="p">{</span>
+        <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">read</span><span class="p">();</span>
+        <span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">readUrl</span> <span class="o">+=</span> <span class="n">c</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'\n'</span> <span class="o">&amp;&amp;</span> <span class="n">currentLineIsBlank</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// send a standard http response header</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"HTTP/1.1 200 OK"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Content-Type: text/html"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Connection: close"</span><span class="p">);</span>
+      <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Refresh: 30"</span><span class="p">);</span>  <span class="c1">// refresh the page automatically every 30 sec</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;!DOCTYPE HTML&gt;"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;html&gt;"</span><span class="p">);</span>
+          <span class="c1">// output time</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">hour</span><span class="p">());</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">":"</span><span class="p">);</span>
+          <span class="k">if</span><span class="p">(</span><span class="n">minute</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="sc">'0'</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">minute</span><span class="p">());</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">":"</span><span class="p">);</span>
+          <span class="k">if</span><span class="p">(</span><span class="n">second</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="sc">'0'</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">second</span><span class="p">());</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="c1">// output the state of each relay</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"CCFL Bulb"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" is "</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"OFF"</span><span class="p">);</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"ON"</span><span class="p">);</span>
+          <span class="p">}</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Black Light 1"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" is "</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">bLight1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"OFF"</span><span class="p">);</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"ON"</span><span class="p">);</span>
+          <span class="p">}</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Black Light 2"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" is "</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">bLight2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"OFF"</span><span class="p">);</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"ON"</span><span class="p">);</span>
+          <span class="p">}</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Day Bulb"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" is "</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">){</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"OFF"</span><span class="p">);</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"ON"</span><span class="p">);</span>
+          <span class="p">}</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="c1">// out the humidity and temperature of each sensor</span>
+          <span class="n">Hum</span> <span class="o">=</span> <span class="n">dhtLeft</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+      <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtLeft</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">)</span> <span class="o">||</span> <span class="n">isnan</span><span class="p">(</span><span class="n">Hum</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Humidity Left Side: "</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">Hum</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" %</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Temperature Left Side: "</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">Tem</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">" *C"</span><span class="p">);</span>
+      <span class="p">}</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">Hum</span> <span class="o">=</span> <span class="n">dhtLog</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+      <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtLog</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">)</span> <span class="o">||</span> <span class="n">isnan</span><span class="p">(</span><span class="n">Hum</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Humidity by Log: "</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">Hum</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" %</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Temperature by Log: "</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">Tem</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">" *C"</span><span class="p">);</span>
+      <span class="p">}</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">Hum</span> <span class="o">=</span> <span class="n">dhtRight</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+      <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtRight</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">)</span> <span class="o">||</span> <span class="n">isnan</span><span class="p">(</span><span class="n">Hum</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Humidity Right Side: "</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">Hum</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" %</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Temperature Right Side: "</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">Tem</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">" *C"</span><span class="p">);</span>
+      <span class="p">}</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">Hum</span> <span class="o">=</span> <span class="n">dhtPlatform</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+      <span class="n">Tem</span> <span class="o">=</span> <span class="n">dhtPlatform</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">Tem</span><span class="p">)</span> <span class="o">||</span> <span class="n">isnan</span><span class="p">(</span><span class="n">Hum</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to read from DHT"</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Humidity by Platform: "</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">Hum</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">" %</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Temperature by Platform: "</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">Tem</span><span class="p">);</span>
+        <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">" *C"</span><span class="p">);</span>
+      <span class="p">}</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;br /&gt;"</span><span class="p">);</span>
+          <span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"&lt;/html&gt;"</span><span class="p">);</span>
+          <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="sc">'\n'</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// you're starting a new line</span>
+          <span class="n">currentLineIsBlank</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">!=</span> <span class="sc">'\r'</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// you've gotten a character on the current line</span>
+          <span class="n">currentLineIsBlank</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// give the web browser time to receive the data</span>
+    <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="c1">// close the connection:</span>
+    <span class="n">client</span><span class="p">.</span><span class="n">stop</span><span class="p">();</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"client disonnected"</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">controlRelay</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">//--- turn relay on or off</span>
+<span class="kt">void</span> <span class="nf">controlRelay</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?Day"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?Night"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?BL1On"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?BL1Off"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight1</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?BL2On"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?BL2Off"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">bLight2</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?ccflOn"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?ccflOff"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">ccflBulb</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?dayOn"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">,</span> <span class="n">ON</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">readUrl</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="s">"?dayOff"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">dayBulb</span><span class="p">,</span> <span class="n">OFF</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">readUrl</span><span class="o">=</span><span class="s">""</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*-------- NTP code ----------*/</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">NTP_PACKET_SIZE</span> <span class="o">=</span> <span class="mi">48</span><span class="p">;</span> <span class="c1">// NTP time is in the first 48 bytes of message</span>
+<span class="n">byte</span> <span class="n">packetBuffer</span><span class="p">[</span><span class="n">NTP_PACKET_SIZE</span><span class="p">];</span> <span class="c1">//buffer to hold incoming &amp; outgoing packets</span>
+
+<span class="kt">time_t</span> <span class="nf">getNtpTime</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">Udp</span><span class="p">.</span><span class="n">parsePacket</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">;</span> <span class="c1">// discard any previously received packets</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Transmit NTP Request"</span><span class="p">);</span>
+  <span class="n">sendNTPpacket</span><span class="p">(</span><span class="n">timeServer</span><span class="p">);</span>
+  <span class="kt">uint32_t</span> <span class="n">beginWait</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">beginWait</span> <span class="o">&lt;</span> <span class="mi">1500</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">Udp</span><span class="p">.</span><span class="n">parsePacket</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="n">NTP_PACKET_SIZE</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Receive NTP Response"</span><span class="p">);</span>
+      <span class="n">Udp</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">packetBuffer</span><span class="p">,</span> <span class="n">NTP_PACKET_SIZE</span><span class="p">);</span>  <span class="c1">// read packet into the buffer</span>
+      <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">secsSince1900</span><span class="p">;</span>
+      <span class="c1">// convert four bytes starting at location 40 to a long integer</span>
+      <span class="n">secsSince1900</span> <span class="o">=</span>  <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">packetBuffer</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">24</span><span class="p">;</span>
+      <span class="n">secsSince1900</span> <span class="o">|=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">packetBuffer</span><span class="p">[</span><span class="mi">41</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">;</span>
+      <span class="n">secsSince1900</span> <span class="o">|=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">packetBuffer</span><span class="p">[</span><span class="mi">42</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">;</span>
+      <span class="n">secsSince1900</span> <span class="o">|=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">packetBuffer</span><span class="p">[</span><span class="mi">43</span><span class="p">];</span>
+      <span class="k">return</span> <span class="n">secsSince1900</span> <span class="o">-</span> <span class="mi">2208988800UL</span> <span class="o">+</span> <span class="n">timeZone</span> <span class="o">*</span> <span class="n">SECS_PER_HOUR</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"No NTP Response :-("</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// return 0 if unable to get the time</span>
+<span class="p">}</span>
+
+<span class="c1">// send an NTP request to the time server at the given address</span>
+<span class="kt">void</span> <span class="nf">sendNTPpacket</span><span class="p">(</span><span class="n">IPAddress</span> <span class="o">&amp;</span><span class="n">address</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// set all bytes in the buffer to 0</span>
+  <span class="n">memset</span><span class="p">(</span><span class="n">packetBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NTP_PACKET_SIZE</span><span class="p">);</span>
+  <span class="c1">// Initialize values needed to form NTP request</span>
+  <span class="c1">// (see URL above for details on the packets)</span>
+  <span class="n">packetBuffer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b11100011</span><span class="p">;</span>   <span class="c1">// LI, Version, Mode</span>
+  <span class="n">packetBuffer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>     <span class="c1">// Stratum, or type of clock</span>
+  <span class="n">packetBuffer</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>     <span class="c1">// Polling Interval</span>
+  <span class="n">packetBuffer</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0xEC</span><span class="p">;</span>  <span class="c1">// Peer Clock Precision</span>
+  <span class="c1">// 8 bytes of zero for Root Delay &amp; Root Dispersion</span>
+  <span class="n">packetBuffer</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">49</span><span class="p">;</span>
+  <span class="n">packetBuffer</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span>  <span class="o">=</span> <span class="mh">0x4E</span><span class="p">;</span>
+  <span class="n">packetBuffer</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">49</span><span class="p">;</span>
+  <span class="n">packetBuffer</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span>  <span class="o">=</span> <span class="mi">52</span><span class="p">;</span>
+  <span class="c1">// all NTP fields have been given values, now</span>
+  <span class="c1">// you can send a packet requesting a timestamp:</span>
+  <span class="n">Udp</span><span class="p">.</span><span class="n">beginPacket</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">123</span><span class="p">);</span> <span class="c1">//NTP requests are to port 123</span>
+  <span class="n">Udp</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">packetBuffer</span><span class="p">,</span> <span class="n">NTP_PACKET_SIZE</span><span class="p">);</span>
+  <span class="n">Udp</span><span class="p">.</span><span class="n">endPacket</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="/category/projects.html">Projects</a></p>
+                        <p>Tags: <a href="/tag/arduino.html">Arduino</a>, <a href="/tag/microcontroller.html">Microcontroller</a>, <a href="/tag/projects.html">Projects</a>, <a href="/tag/soldering.html">Soldering</a>, </p>
+                    </aside>
+                    <hr/>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+<script>
+    var _gaq=[['_setAccount','UA-68264624-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+        <script src="/theme/js/main.js"></script>
+    </body>
+</html>
