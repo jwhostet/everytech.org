@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>    3D Printing Preprint Purge
+</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="http://everytech.org/theme/css/normalize.css">
+        <link href='//fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://everytech.org/theme/css/font-awesome.min.css">
+        <link rel="stylesheet" href="http://everytech.org/theme/css/main.css">
+
+    <link rel="stylesheet" href="http://everytech.org/theme/css/blog.css">
+    <link rel="stylesheet" href="http://everytech.org/theme/css/github.css">
+        <link href="http://everytech.org/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Everything Technical Atom Feed" />
+        <script src="http://everytech.org/theme/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+<header id="sidebar" class="side-shadow">
+    <hgroup id="site-header">
+        <a id="site-title" href="http://everytech.org"><h1>Everything Technical</h1></a>
+        <p id="site-desc"></p>
+    </hgroup>
+    <nav>
+        <ul id="nav-links">
+                <li><a href="http://everytech.org/pages/contact.html">Contact</a></li>
+                <li><a href="http://everytech.org/pages/social.html">Social</a></li>
+        </ul>
+    </nav>
+<footer id="site-info">
+    <p>
+        Proudly powered by <a href="http://getpelican.com/" target="pelican">Pelican</a> and <a href="http://python.org/" target="python">Python</a>.
+    </p>
+</footer></header>
+    <div id="post-container">
+        <ol id="post-list">
+            <li>
+                <article class="post-entry">
+                    <header class="entry-header">
+                        <time class="post-time" datetime="2015-10-05T12:33:00-04:00" pubdate>
+                            Mon 05 October 2015
+                        </time>
+                        <a href="http://everytech.org/3d-printing-preprint-purge.html" rel="bookmark"><h1>3D Printing Preprint Purge</h1></a>
+                        <a href="http://everytech.org/author/joshua-h.html" rel="bookmark">Joshua H</a>
+                    </header>
+
+                    <section class="post-content">
+                        <p>I have been working with a PrinrBot Simple Metal. After completing the assembly, I had quite a few problems to start. My biggest problem was getting filament to extrude before we were halfway through the second layer. After tweaking and retesting I eventually ventured to the internet for help. This is when I came a cross an awesome <a class="reference external" href="https://www.reddit.com/r/PrintrBot/comments/3jm8bc/start_gcode_does_not_extrudeandmove_but_the_code/?ref=share&amp;ref_source=link">Reddit post</a> which describes a few lines of g-code. These few lines do the normal bed leveling as well as extrude a flat line of filament. This will prime and clean your nozzle so you are immediately ready to start printing. This also helps with strings or other blobs of filament left over from a previous print. Add the following to the start gcode section in Cura.</p>
+<div class="highlight"><pre><span class="nv">G90</span>                         <span class="c1">; Explicitly force absolute positioning in case it was not reset previously.</span>
+<span class="nv">G28</span>                         <span class="c1">; Home all axes.</span>
+<span class="nv">G29</span>                         <span class="c1">; Auto-level the bed.</span>
+<span class="nv">G0</span> <span class="nv">X0</span> <span class="nv">Y0</span> <span class="nv">Z0.15</span> <span class="nv">F9000</span>        <span class="c1">; Move to the front-left part of the bed.</span>
+<span class="nv">M109</span> <span class="nv">S{print_temperature}</span>   <span class="c1">; Set and wait for extruder temperature.</span>
+<span class="nv">G92</span> <span class="nv">E0</span>                      <span class="c1">; Zero the extruder.</span>
+<span class="nv">G1</span> <span class="nv">X40</span> <span class="nv">E25</span> <span class="nv">F500</span>             <span class="c1">; Extrude a fat line of filament to prime and clean the nozzle.</span>
+<span class="nv">G92</span> <span class="nv">E0</span>                      <span class="c1">; Zero the extruder.</span>
+<span class="nv">G1</span> <span class="nv">E-1</span> <span class="nv">F500</span>                 <span class="c1">; Retract 1 mm.</span>
+<span class="nv">G1</span> <span class="nv">X80</span> <span class="nv">F9000</span>                <span class="c1">; Sweep right to cut any strings.</span>
+<span class="nv">G1</span> <span class="nv">Z0.3</span>                     <span class="c1">; Raise the tip a little and begin printing.</span>
+</pre></div>
+<p>On the subject of blobs left over from previous prints. The author of the above gcode also mentions adding the below to his end gcode in Cura. Supposed to help limit the amount of blob left over. I have yet to test this but in theory sounds like a good idea.</p>
+<div class="highlight"><pre><span class="nv">G28</span> <span class="nv">X0</span> <span class="nv">Y0</span> <span class="nv">Z0</span>
+</pre></div>
+
+                    </section>
+                    <hr/>
+                    <aside class="post-meta">
+                        <p>Category: <a href="http://everytech.org/category/3d-printing.html">3D Printing</a></p>
+                        <p>Tags: <a href="http://everytech.org/tag/g-code.html">g-code</a>, <a href="http://everytech.org/tag/3d-printing.html">3d printing</a>, <a href="http://everytech.org/tag/cura.html">Cura</a>, </p>
+                    </aside>
+                    <hr/>
+                </article>
+            </li>
+        </ol>
+    </div>
+        </div>
+
+<script>
+    var _gaq=[['_setAccount','UA-68264624-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+        <script src="http://everytech.org/theme/js/main.js"></script>
+    </body>
+</html>

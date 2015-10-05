@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://everytech.org/</loc>
-<lastmod>2015-10-01T12:10:30-00:00</lastmod>
+<lastmod>2015-10-05T15:22:22-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://everytech.org/archives.html</loc>
-<lastmod>2015-10-01T12:10:30-00:00</lastmod>
+<lastmod>2015-10-05T15:22:22-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://everytech.org/tags.html</loc>
-<lastmod>2015-10-01T12:10:30-00:00</lastmod>
+<lastmod>2015-10-05T15:22:22-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://everytech.org/categories.html</loc>
-<lastmod>2015-10-01T12:10:30-00:00</lastmod>
+<lastmod>2015-10-05T15:22:22-00:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -41,6 +41,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://everytech.org/pages/social.html</loc>
 <lastmod>2015-09-29T16:02:00-04:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://everytech.org/3d-printing-preprint-purge.html</loc>
+<lastmod>2015-10-05T12:33:00-04:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -137,6 +144,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://everytech.org/category/3d-printing.html</loc>
+<lastmod>2015-10-05T12:33:00-05:45</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://everytech.org/category/adobe.html</loc>
 <lastmod>2014-03-11T18:59:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
@@ -214,6 +228,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://everytech.org/tag/system-administrator.html</loc>
+<lastmod>2014-03-03T20:24:00-05:45</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://everytech.org/tag/proprietary.html</loc>
 <lastmod>2014-04-19T19:11:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
@@ -228,6 +249,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://everytech.org/tag/3d-printing.html</loc>
+<lastmod>2015-10-05T12:33:00-05:45</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://everytech.org/tag/app.html</loc>
 <lastmod>2014-03-14T19:56:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
@@ -235,8 +263,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://everytech.org/tag/system-administrator.html</loc>
-<lastmod>2014-03-03T20:24:00-05:45</lastmod>
+<loc>http://everytech.org/tag/hobbies.html</loc>
+<lastmod>2014-02-20T17:41:00-05:45</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://everytech.org/tag/cms.html</loc>
+<lastmod>2014-03-11T18:59:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -249,8 +284,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://everytech.org/tag/hobbies.html</loc>
-<lastmod>2014-02-20T17:41:00-05:45</lastmod>
+<loc>http://everytech.org/tag/cura.html</loc>
+<lastmod>2015-10-05T12:33:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -340,8 +375,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://everytech.org/tag/ebook.html</loc>
-<lastmod>2014-04-21T20:16:00-05:45</lastmod>
+<loc>http://everytech.org/tag/microcontroller.html</loc>
+<lastmod>2014-06-15T17:21:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -354,8 +389,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://everytech.org/tag/microcontroller.html</loc>
-<lastmod>2014-06-15T17:21:00-05:45</lastmod>
+<loc>http://everytech.org/tag/ebook.html</loc>
+<lastmod>2014-04-21T20:16:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -459,8 +494,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://everytech.org/tag/cms.html</loc>
-<lastmod>2014-03-11T18:59:00-05:45</lastmod>
+<loc>http://everytech.org/tag/g-code.html</loc>
+<lastmod>2015-10-05T12:33:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -551,7 +586,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://everytech.org/author/joshua-h.html</loc>
-<lastmod>2015-09-30T14:45:00-05:45</lastmod>
+<lastmod>2015-10-05T12:33:00-05:45</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.5</priority>
 </url>
