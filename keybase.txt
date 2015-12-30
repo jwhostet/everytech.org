@@ -1,0 +1,51 @@
+https://keybase.io/jwhostetler
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://www.everytech.org
+  * I am jwhostetler (https://keybase.io/jwhostetler) on keybase.
+  * I have a public key ASDfzZbb6ZxBpH-5fPe9OkFOdeBBhSlcf0vj-5mGswIu5go
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0120dfcd96dbe99c41a47fb97cf7bd3a414e75e04185295c7f4be3fb9986b3022ee60a",
+            "host": "keybase.io",
+            "kid": "0120dfcd96dbe99c41a47fb97cf7bd3a414e75e04185295c7f4be3fb9986b3022ee60a",
+            "uid": "54952527264b3f63d13a3e41b0baf819",
+            "username": "jwhostetler"
+        },
+        "service": {
+            "hostname": "www.everytech.org",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "client": {
+        "name": "keybase.io go client",
+        "version": "1.0.6"
+    },
+    "ctime": 1451502172,
+    "expire_in": 504576000,
+    "merkle_root": {
+        "ctime": 1451502100,
+        "hash": "4c485b509dc58ece64ed9a4b6c2d34dcbacfc426b353a25290fbf28e953bd1308f0adf6e02589f3fc5ae923bae5a0409b5e4beb239ad38b7363733ee2ecf7bd3",
+        "seqno": 340413
+    },
+    "prev": "33196742a2cb574a1a6fd889e6d70f1a518920f3280a8090e57e66a3075d0904",
+    "seqno": 21,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+g6Rib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg382W2+mcQaR/uXz3vTpBTnXgQYUpXH9L4/uZhrMCLuYKp3BheWxvYWTFAvt7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwZGZjZDk2ZGJlOTljNDFhNDdmYjk3Y2Y3YmQzYTQxNGU3NWUwNDE4NTI5NWM3ZjRiZTNmYjk5ODZiMzAyMmVlNjBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwZGZjZDk2ZGJlOTljNDFhNDdmYjk3Y2Y3YmQzYTQxNGU3NWUwNDE4NTI5NWM3ZjRiZTNmYjk5ODZiMzAyMmVlNjBhIiwidWlkIjoiNTQ5NTI1MjcyNjRiM2Y2M2QxM2EzZTQxYjBiYWY4MTkiLCJ1c2VybmFtZSI6Imp3aG9zdGV0bGVyIn0sInNlcnZpY2UiOnsiaG9zdG5hbWUiOiJ3d3cuZXZlcnl0ZWNoLm9yZyIsInByb3RvY29sIjoiaHR0cDoifSwidHlwZSI6IndlYl9zZXJ2aWNlX2JpbmRpbmciLCJ2ZXJzaW9uIjoxfSwiY2xpZW50Ijp7Im5hbWUiOiJrZXliYXNlLmlvIGdvIGNsaWVudCIsInZlcnNpb24iOiIxLjAuNiJ9LCJjdGltZSI6MTQ1MTUwMjE3MiwiZXhwaXJlX2luIjo1MDQ1NzYwMDAsIm1lcmtsZV9yb290Ijp7ImN0aW1lIjoxNDUxNTAyMTAwLCJoYXNoIjoiNGM0ODViNTA5ZGM1OGVjZTY0ZWQ5YTRiNmMyZDM0ZGNiYWNmYzQyNmIzNTNhMjUyOTBmYmYyOGU5NTNiZDEzMDhmMGFkZjZlMDI1ODlmM2ZjNWFlOTIzYmFlNWEwNDA5YjVlNGJlYjIzOWFkMzhiNzM2MzczM2VlMmVjZjdiZDMiLCJzZXFubyI6MzQwNDEzfSwicHJldiI6IjMzMTk2NzQyYTJjYjU3NGExYTZmZDg4OWU2ZDcwZjFhNTE4OTIwZjMyODBhODA5MGU1N2U2NmEzMDc1ZDA5MDQiLCJzZXFubyI6MjEsInRhZyI6InNpZ25hdHVyZSJ9o3NpZ8RAKf3vpwh0TkWfna78QTOgtzaF3zTymsygXnPslhiokAuAt1OYdaenzcm61q3TyOyfuQ8Hc99S2/fL393DAirZAKhzaWdfdHlwZSCjdGFnzQICp3ZlcnNpb24B
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/jwhostetler
