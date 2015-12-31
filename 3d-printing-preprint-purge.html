@@ -35,6 +35,7 @@
     <nav>
         <ul id="nav-links">
                 <li><a href="http://everytech.org/pages/contact.html">Contact</a></li>
+                <li><a href="http://everytech.org/pages/keybase.html">Keybase.io</a></li>
                 <li><a href="http://everytech.org/pages/social.html">Social</a></li>
         </ul>
     </nav>
@@ -56,7 +57,7 @@
                     </header>
 
                     <section class="post-content">
-                        <p>I have been working with a PrinrBot Simple Metal. After completing the assembly, I had quite a few problems to start. My biggest problem was getting filament to extrude before we were halfway through the second layer. After tweaking and retesting I eventually ventured to the internet for help. This is when I came a cross an awesome <a class="reference external" href="https://www.reddit.com/r/PrintrBot/comments/3jm8bc/start_gcode_does_not_extrudeandmove_but_the_code/?ref=share&amp;ref_source=link">Reddit post</a> which describes a few lines of g-code. These few lines do the normal bed leveling as well as extrude a flat line of filament. This will prime and clean your nozzle so you are immediately ready to start printing. This also helps with strings or other blobs of filament left over from a previous print. Add the following to the start gcode section in Cura.</p>
+                        <p>I have been working with a Printrbot Simple Metal. After completing the assembly, I had quite a few problems to start. My biggest problem was getting filament to extrude before we were halfway through the second layer. After tweaking and retesting I eventually ventured to the internet for help. This is when I came a cross an awesome <a class="reference external" href="https://www.reddit.com/r/PrintrBot/comments/3jm8bc/start_gcode_does_not_extrudeandmove_but_the_code/?ref=share&amp;ref_source=link">Reddit post</a> which describes a few lines of g-code. These few lines do the normal bed leveling as well as extrude a flat line of filament. This will prime and clean your nozzle so you are immediately ready to start printing. This also helps with strings or other blobs of filament left over from a previous print. Add the following to the start gcode section in Cura.</p>
 <div class="highlight"><pre><span class="nv">G90</span>                         <span class="c1">; Explicitly force absolute positioning in case it was not reset previously.</span>
 <span class="nv">G28</span>                         <span class="c1">; Home all axes.</span>
 <span class="nv">G29</span>                         <span class="c1">; Auto-level the bed.</span>
